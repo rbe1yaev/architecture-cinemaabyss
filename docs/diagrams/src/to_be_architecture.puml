@@ -1,0 +1,81 @@
+@startuml
+!include <C4/C4_Container>
+
+title To-Be Architecture - Кинобездна Container Diagram
+
+Person(web_client, "Web Client", "Пользователь с ноутбука")
+Person(mobile_client, "Mobile Client", "Пользователь со смартфона")
+Person(tv_client, "Smart TV Client", "Пользователь со Smart TV")
+
+System_Boundary(c1, "Кинобездна System") {
+    
+    Container(web_bff, "Web BFF", "BFF", "API Gateway (BFF) для Web")
+    Container(mobile_bff, "Mobile BFF", "BFF", "API Gateway (BFF) для Mobile")
+    Container(tv_bff, "TV BFF", "BFF", "API Gateway (BFF) для Smart TV")
+    
+    Container(iam_service, "IAM Service", "Microservice", "Аутентификация и авторизация")
+    Container(user_profile_service, "User Profile Service", "Microservice", "Управление профилем и избранным")
+    Container(payment_service, "Payment Service", "Microservice", "Управление платежами")
+    Container(subscription_service, "Subscription Service", "Microservice", "Управление подписками")
+    Container(discount_service, "Discounts Service", "Microservice", "Скидки и акции")
+    Container(movies_service, "Movies Service", "Microservice", "Метаданные фильмов, рейтинги, жанры")
+    Container(content_ingestion_service, "Content Ingestion Service", "Microservice", "Асинхронный сбор метаданных")
+    Container(recommendation_adapter, "Recommendation Adapter", "Microservice", "Адаптер к внешней рекомендательной системе")
+    
+    ContainerDb(db_iam, "IAM DB", "Database", "Хранит данные аутентификации")
+    ContainerDb(db_user, "User DB", "Database", "Хранит профили и избранное")
+    ContainerDb(db_payment, "Payment DB", "Database", "Хранит транзакции")
+    ContainerDb(db_subscription, "Subscription DB", "Database", "Хранит подписки")
+    ContainerDb(db_discount, "Discount DB", "Database", "Хранит скидки")
+    ContainerDb(db_movies, "Movies DB", "Database", "Хранит метаданные фильмов и прямые ссылки на стримы")
+    
+    Container(kafka, "Message Broker", "Message Bus", "Асинхронная шина событий (Events Service)")
+}
+
+System_Ext(ext_recommendation, "External Recommendation System", "Внешняя система рекомендаций")
+System_Ext(ext_streaming, "External Streaming Services", "Открытые источники и стриминги контента (CDN)")
+
+Rel(web_client, web_bff, "Uses", "HTTPS/REST")
+Rel(mobile_client, mobile_bff, "Uses", "HTTPS/REST")
+Rel(tv_client, tv_bff, "Uses", "HTTPS/REST")
+
+Rel(web_client, ext_streaming, "Streams video from", "HTTPS/HLS/DASH")
+Rel(mobile_client, ext_streaming, "Streams video from", "HTTPS/HLS/DASH")
+Rel(tv_client, ext_streaming, "Streams video from", "HTTPS/HLS/DASH")
+
+Rel(web_bff, iam_service, "Uses", "gRPC/REST")
+Rel(mobile_bff, iam_service, "Uses", "gRPC/REST")
+Rel(tv_bff, iam_service, "Uses", "gRPC/REST")
+
+Rel(web_bff, user_profile_service, "Uses", "gRPC/REST")
+Rel(mobile_bff, user_profile_service, "Uses", "gRPC/REST")
+Rel(tv_bff, user_profile_service, "Uses", "gRPC/REST")
+
+Rel(web_bff, movies_service, "Uses", "gRPC/REST")
+Rel(mobile_bff, movies_service, "Uses", "gRPC/REST")
+Rel(tv_bff, movies_service, "Uses", "gRPC/REST")
+
+Rel(web_bff, payment_service, "Uses", "gRPC/REST")
+Rel(mobile_bff, payment_service, "Uses", "gRPC/REST")
+Rel(tv_bff, payment_service, "Uses", "gRPC/REST")
+
+Rel(iam_service, db_iam, "Reads/Writes")
+Rel(user_profile_service, db_user, "Reads/Writes")
+Rel(payment_service, db_payment, "Reads/Writes")
+Rel(subscription_service, db_subscription, "Reads/Writes")
+Rel(discount_service, db_discount, "Reads/Writes")
+Rel(movies_service, db_movies, "Reads/Writes")
+
+Rel(content_ingestion_service, ext_streaming, "Fetches metadata from", "HTTPS")
+Rel(content_ingestion_service, movies_service, "Updates metadata/links in", "gRPC/REST")
+
+Rel(recommendation_adapter, ext_recommendation, "Gets recommendations from", "AsyncApi/SyncApi")
+Rel(user_profile_service, recommendation_adapter, "Gets tailored lists via", "gRPC/REST")
+
+Rel(payment_service, kafka, "Publishes events to")
+Rel(subscription_service, kafka, "Publishes/Consumes events")
+Rel(user_profile_service, kafka, "Publishes events to")
+Rel(discount_service, kafka, "Consumes events from")
+Rel(movies_service, kafka, "Publishes events to")
+
+@enduml
