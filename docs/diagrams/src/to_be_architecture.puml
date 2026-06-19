@@ -1,13 +1,13 @@
 @startuml
 !include <C4/C4_Container>
 
-title To-Be Architecture - Кинобездна Container Diagram
+title To-Be Architecture - CinemaAbyss Container Diagram
 
 Person(web_client, "Web Client", "Пользователь с ноутбука")
 Person(mobile_client, "Mobile Client", "Пользователь со смартфона")
 Person(tv_client, "Smart TV Client", "Пользователь со Smart TV")
 
-System_Boundary(c1, "Кинобездна System") {
+System_Boundary(c1, "CinemaAbyss System") {
     
     Container(web_bff, "Web BFF", "BFF", "API Gateway (BFF) для Web")
     Container(mobile_bff, "Mobile BFF", "BFF", "API Gateway (BFF) для Mobile")

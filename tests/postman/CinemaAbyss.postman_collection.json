@@ -532,6 +532,26 @@
     },
     {
       "name": "Events Microservice",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "exec": [
+              "// Set default IDs if not already populated by Monolith create requests",
+              "if (!pm.collectionVariables.get('userId') || pm.collectionVariables.get('userId') === '') {",
+              "    pm.collectionVariables.set('userId', 1);",
+              "}",
+              "if (!pm.collectionVariables.get('movieId') || pm.collectionVariables.get('movieId') === '') {",
+              "    pm.collectionVariables.set('movieId', 1);",
+              "}",
+              "if (!pm.collectionVariables.get('paymentId') || pm.collectionVariables.get('paymentId') === '') {",
+              "    pm.collectionVariables.set('paymentId', 1);",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
       "item": [
         {
           "name": "Health Check",
