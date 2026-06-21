@@ -50,9 +50,13 @@ func main() {
 
 	http.HandleFunc("/health", healthHandler)
 	http.HandleFunc("/api/movies", moviesProxyHandler)
+	http.HandleFunc("/api/movies/", moviesProxyHandler)
 	http.HandleFunc("/api/users", monolithProxyHandler)
+	http.HandleFunc("/api/users/", monolithProxyHandler)
 	http.HandleFunc("/api/payments", monolithProxyHandler)
+	http.HandleFunc("/api/payments/", monolithProxyHandler)
 	http.HandleFunc("/api/subscriptions", monolithProxyHandler)
+	http.HandleFunc("/api/subscriptions/", monolithProxyHandler)
 	http.HandleFunc("/api/events/", eventsProxyHandler)
 
 	port := getEnv("PORT", "8000")

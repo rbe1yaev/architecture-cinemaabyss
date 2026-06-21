@@ -2,6 +2,8 @@
 
 # Задание 1
 
+Ответ: 
+
 **C4 To-Be Архитектура (Container Diagram)**
 В целевой архитектуре (To-Be) монолит полностью распилен на независимые доменные микросервисы (по паттерну Database-per-Service). Для маршрутизации трафика и поддержки различных форматов данных для ноутбуков, мобильных устройств и ТВ применяется паттерн BFF (Backend for Frontend). 
 
@@ -50,6 +52,7 @@
    ```
 - Протестируйте постепенный переход, изменив переменную окружения MOVIES_MIGRATION_PERCENT в файле docker-compose.yml.
 
+Ответ: Готово, протестировано
 
 ### 2. Kafka
  Вам как архитектуру нужно также проверить гипотезу насколько просто реализовать применение Kafka в данной архитектуре.
@@ -62,6 +65,12 @@
 
 Необходимые тесты для проверки этого API вызываются при запуске npm run test:local из папки tests/postman 
 Приложите скриншот тестов и скриншот состояния топиков Kafka из UI http://localhost:8090 
+
+Ответ:
+
+UI: [UI](docs/sshots/cafka_ui.png)
+
+Тесты: [Tests](docs/sshots/2_tests.png)
 
 # Задание 3
 
@@ -279,6 +288,9 @@ cat .docker/config.json | base64
 #### Шаг 3
 Добавьте сюда скриншота вывода при вызове https://cinemaabyss.example.com/api/movies и  скриншот вывода event-service после вызова тестов.
 
+Movies: [movies](docs/sshots/3_movies.png)
+
+Тесты: [Tests](docs/sshots/3_tests.png)
 
 # Задание 4
 Для простоты дальнейшего обновления и развертывания вам как архитектуру необходимо так же реализовать helm-чарты для прокси-сервиса и проверить работу 
@@ -353,6 +365,11 @@ minikube tunnel
 Потом вызовите 
 https://cinemaabyss.example.com/api/movies
 и приложите скриншот развертывания helm и вывода https://cinemaabyss.example.com/api/movies
+
+
+Movies: [movies](docs/sshots/4_movies.png)
+
+Helm: [Helm](docs/sshots/4_helm.png)
 
 ## Удаляем все
 
