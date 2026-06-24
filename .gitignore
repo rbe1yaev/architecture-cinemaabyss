@@ -154,3 +154,10 @@ go.work
 
 # Postman tests reports
 tests/postman/reports/
+
+# tasks files
+.tasks/
+
+# agents files
+AGENTS.md
+.agent-memory/

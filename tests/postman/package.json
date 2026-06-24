@@ -6,7 +6,7 @@
   "scripts": {
     "test": "node run-tests.js",
     "test:local": "node run-tests.js --environment local",
-    "test:docker": "node run-tests.js --environment docker",
+    "test:docker": "docker build -t cinemaabyss-tests . && docker run --rm --network cinemaabyss-network cinemaabyss-tests --environment docker",
     "test:kubernetes": "node run-tests.js --environment kubernetes"
   },
   "keywords": [

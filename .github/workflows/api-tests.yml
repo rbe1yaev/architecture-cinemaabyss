@@ -63,7 +63,7 @@ jobs:
           docker build -t cinemaabyss-api-tests .
           
           # Run the tests in Docker
-          docker run --network=cinemaabyss-network -v "$(pwd)/reports:/app/reports" cinemaabyss-api-tests
+          docker run --network=cinemaabyss-network -v "$(pwd)/reports:/app/reports" cinemaabyss-api-tests --environment docker
         
       
       - name: Stop services
